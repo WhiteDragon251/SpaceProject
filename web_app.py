@@ -35,11 +35,8 @@ def image_scrapper(question):
     if (count == 4):
       break
     else:
-      # urllib.request.urlretrieve(item['link'], f"img{count}.png")
-      # img = Image.open(f"img{count}.png")
-      # img.show()
-      # put_markdown(f"![Image]({item['link']})")
-      put_html(f'<img src="{item["link"]}" height="400">&nbsp;&nbsp;&nbsp;')
+      put_html(f'<img src="{item["link"]}" height="400">')
+      put_html('<br><br>')
       count+=1
   
 
