@@ -13,7 +13,7 @@ def web_scrapper(question):
 
   result['items'][0]
 
-  put_markdown("### The best documentations filtered from the web about your searched topic is opened in your browser!")
+  put_markdown("### The best documentations filtered from the web about your searched topic is opened are your browser!")
   put_markdown("##### Here are few more links for more information about the searched topic:")
   count = 1
   for item in result['items']:
