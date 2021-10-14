@@ -1,3 +1,4 @@
+# Importing all the necessary libraries:
 import webbrowser
 import turtle
 from datetime import date
@@ -6,44 +7,42 @@ import pywebio
 from pywebio.input import input as web_input
 from pywebio.output import clear, put_buttons, put_html, put_markdown
 
+# Assigning the API keys:
 api_key = "AIzaSyADUP3JljtNGmG8lD4X9jvxSly93Aw3cKI"
 resource = build("customsearch", 'v1', developerKey=api_key).cse()
+
+# This is the fucntion which scraps data as links from the web and displays them 
 def web_scrapper(question):
   result = resource.list(q=question, cx='009557628044748784875:5lejfe73wrw').execute()
 
   result['items'][0]
 
-  put_markdown("### The best documentations filtered from the web about your searched topic are opened in your browser!")
+  put_markdown("### The best documentations filtered from the web about your searched topic is opened are your browser!")
   put_markdown("##### Here are few more links for more information about the searched topic:")
   count = 1
   for item in result['items']:
       if (count >= 3):
-        # print(item['title'], item['link'])
         put_markdown(f'* **{item["title"]}** -- [Click here to open]({item["link"]})')
       else:
         webbrowser.open_new_tab(item['link'])
       count+=1
 
+# This is the fucntion which scraps data as images from the web and displays them
 def image_scrapper(question):
   result = resource.list(q=question, cx='009557628044748784875:5lejfe73wrw', searchType='image').execute()
 
   count=1
-  # print("\nThe images we found related to the search result is displayed!\n")
   put_markdown("### The images we found related to your search result are displayed below")
 
   for item in result['items']:
     if (count == 4):
       break
     else:
-      # urllib.request.urlretrieve(item['link'], f"img{count}.png")
-      # img = Image.open(f"img{count}.png")
-      # img.show()
-      # put_markdown(f"![Image]({item['link']})")
       put_html(f'<img src="{item["link"]}" height="400">')
       put_html('<br><br>')
       count+=1
   
-
+# This is the function which displays the position of the planets according to the current date in python's turtle graphics
 def orbit_viewer():
   class Date:
     def __init__(self, d, m, y):
@@ -109,7 +108,6 @@ def orbit_viewer():
 
     f = float(r) + float(s)
     return float(str(f)[:4])
-  # print("\nThe Orbit Viewer is starting!\n")
   screen = turtle.Screen()
   screen.bgcolor('black')
 
@@ -180,7 +178,6 @@ def orbit_viewer():
   planet_orbit(planets['earth']["distance_from_sun"], planets['earth']["radius_around_sun"])
   planet_orbit(planets['mars']["distance_from_sun"], planets['mars']["radius_around_sun"])
 
-  # planet = input('Enter the name of the planet you want to plot [mercury, venus, mars]: ')
   planet = 'mercury'
   planet = planet.lower()
   plot_planet(planets[planet]['distance_from_sun'],planets[planet]['radius_around_sun'],planets[planet]['color'],planets[planet]['adj_factor'],calculate_f(planet),planets[planet]['radius_of_planet'])
@@ -196,15 +193,12 @@ def orbit_viewer():
 def program():
   put_markdown('# Space Explorer')  
   put_markdown('### Please choose the option you would like to use')
-  # put_buttons(['Online Resource Gatherer', 'Orbit Viewer'], onclick=click)
   put_buttons(['Online Resource Gatherer'], onclick=click)
   put_markdown('> Gathers information online')
   put_buttons(['Orbit Viewer'], onclick=click)
   put_markdown('> Displays the orbits in real-time')
 
 def scrapper(button):
-  # put_markdown(f'* {button} --> Working')
-
   clear()
   put_markdown('# Online Resource Gatherer')
   if button == "Web Scraper":
@@ -222,8 +216,6 @@ def click(button):
     global search_input
     search_input = web_input('What would you like to search about?')
 
-    # put_buttons(['Web Scraper', 'Image Scapper'], onclick=scrapper)
-
     put_markdown('### Please choose the option that you would like to use')
     put_buttons(['Web Scraper'], onclick=scrapper)
     put_markdown('> View the best websites from your search')
@@ -238,35 +230,6 @@ def click(button):
     put_markdown("> Please try to switch tabs in case the turtle window doesn't show up")
     orbit_viewer()
 
+# Starting the web app
 if __name__ == "__main__":
   pywebio.start_server(program, port=1025)
-
-
-
-# Adjustment factors
-# Mercury - 0.354
-# Venus - 0.75
-# Earth - 0.97
-# Mars - 0.25
-
-# Distance from sun
-# Sun: 0 mi
-# Mercury: 35.98 million mi
-# Venus: 67.24 million mi
-# Earth: 92.96 million mi
-# Mars: 141.6 million mi
-# Jupiter: 483.8 million mi
-# Saturn: 890.9 million mi
-# Uranus: 1.784 billion mi
-# Neptune: 2.793 billion mi
-
-# Radii of planets
-# Sun: 432690 mi
-# Mercury: 1516 mi
-# # Venus: 3760.4 mi
-# Earth: 3958.8 mi
-# Mars: 2106.1 mi
-# Jupiter: 43441 mi
-# Saturn: 36184 mi
-# Uranus: 15759 mi
-# Neptune: 15299 mi
